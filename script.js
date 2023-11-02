@@ -1,115 +1,3 @@
-const data = [
-    {
-        "tipo": "Lanche",
-        "nome": "X-Salada",
-        "composição": [
-            "Pão de hamburguer",
-            "Hamburger bovino 100g",
-            "Alface",
-            "Tomate"
-        ],
-        "adicionais": [
-            "Catupiry",
-            "Purê de batata",
-            "Hamburger bovino 100g"
-        ], 
-        "preço": "25.75"
-    },
-    {
-        "tipo": "Lanche",
-        "nome": "X-Bacon",
-        "composição": [
-            "Pão de hamburguer",
-            "Hamburger bovino 100g",
-            "Bacon",
-            "Alface",
-            "Tomate"
-        ],
-        "adicionais": [
-            "Maionese",
-            "Purê de batata",
-            "Hamburger bovino 100g",
-            "Bacon"
-        ], 
-        "preço": "28.50"
-    },
-    {
-        "tipo": "Lanche",
-        "nome": "X-Frango",
-        "composição": [
-            "Pão de hamburguer",
-            "Filé de frango 100g",
-            "Alface",
-            "Tomate"
-        ],
-        "adicionais": [
-            "Maionese",
-            "Purê de batata",
-            "Filé de frango 100g"
-        ], 
-        "preço": "24.00"
-    },
-    {
-        "tipo": "Lanche",
-        "nome": "X-Calabresa",
-        "composição": [
-            "Pão de hamburguer",
-            "Linguiça calabresa",
-            "Alface",
-            "Tomate"
-        ],
-        "adicionais": [
-            "Maionese",
-            "Purê de batata",
-            "Linguiça calabresa"
-        ], 
-        "preço": "22.00"
-    },
-    {
-        "tipo": "Refrigerante",
-        "nome": "Coca-Cola Lata 350ml",
-        "composição": [],
-        "adicionais": [], 
-        "preço": "7.00"
-    },
-    {
-        "tipo": "Refrigerante",
-        "nome": "Sprite Lata 350ml",
-        "composição": [],
-        "adicionais": [], 
-        "preço": "6.50"
-    },
-    {
-        "tipo": "Refrigerante",
-        "nome": "Fanta Laranja Lata 350ml",
-        "composição": [],
-        "adicionais": [], 
-        "preço": "6.00"
-    },
-    {
-        "tipo": "Refrigerante",
-        "nome": "Guaraná Tamanduá Lata 350ml",
-        "composição": [],
-        "adicionais": [], 
-        "preço": "7.50"
-    }
-];
-
-const combos = [
-    {
-        "nome": "Basicão",
-        "conteudo": [data[0], data[5]]
-    },
-    {
-        "nome": "Big Big",
-        "conteudo": [data[0], data[1], data[6]]
-    },
-    {
-        "nome": "Exagero",
-        "conteudo": [data[0], data[1], data[2], data[7]]
-    },
-];
-
 const menuComponent = document.getElementById('menu');
 const comboComponent = document.getElementById('combos');
 
@@ -120,6 +8,7 @@ data.forEach(item => {
     itemDiv.innerHTML = `
         <br>
         <h4>${item.nome} (${item.tipo})</h4>
+        <img src=${item.imagem}>
         <p>Preço: R$ ${item.preço}</p>
     `;
     
@@ -139,17 +28,17 @@ data.forEach(item => {
     }
   
     //botão de adicionar ou remover do carrinho
-    const addItemToCartButton = document.createElement("input");
-    addItemToCartButton.type = "checkbox";
+    const addItemToCartButton = document.createElement('input');
+    addItemToCartButton.type = 'checkbox';
 
     //ao pressionar o botão
     addItemToCartButton.addEventListener('change', (event) => {
         if (event.currentTarget.checked) { 
             //caso o item tenha adicionais, mostrar a lista deles
             addAditionalsList(itemDiv, item);
-        } else if (itemDiv.getElementsByClassName("aditionalList").length > 0) { 
+        } else if (itemDiv.getElementsByClassName('aditionalList').length > 0) { 
             //caso tirar do carrinho, esconder a tela de adicionais
-            itemDiv.removeChild(itemDiv.getElementsByClassName("aditionalList")[0]);
+            itemDiv.removeChild(itemDiv.getElementsByClassName('aditionalList')[0]);
         }
     })
 
@@ -181,17 +70,28 @@ combos.forEach(combo => {
     itemDiv.appendChild(compositionList);
   
     //botão de adicionar ou remover do carrinho
-    const addItemToCartButton = document.createElement("input");
-    addItemToCartButton.type = "checkbox";
+    const addItemToCartButton = document.createElement('input');
+    addItemToCartButton.type = 'checkbox';
 
     //ao pressionar o botão
     addItemToCartButton.addEventListener('change', (event) => {
         if (event.currentTarget.checked) { 
             //caso o item tenha adicionais, mostrar a lista deles
-            addAditionalsList(itemDiv, item);
-        } else if (itemDiv.getElementsByClassName("aditionalList").length > 0) { 
+            const aditionalsDiv = document.createElement('div');
+            aditionalsDiv.className = 'aditionalList';
+
+            const quantity = document.createElement('input');
+            quantity.className = 'quantity';
+            quantity.type = "text";
+            quantity.value = 1;
+            quantity.name = combo.nome;
+        
+            aditionalsDiv.innerHTML += '<p>Quantidade:</p>';
+            aditionalsDiv.appendChild(quantity);
+            itemDiv.appendChild(aditionalsDiv);
+        } else if (itemDiv.getElementsByClassName('aditionalList').length > 0) { 
             //caso tirar do carrinho, esconder a tela de adicionais
-            itemDiv.removeChild(itemDiv.getElementsByClassName("aditionalList")[0]);
+            itemDiv.removeChild(itemDiv.getElementsByClassName('aditionalList')[0]);
         }
     })
 
@@ -202,10 +102,11 @@ combos.forEach(combo => {
 
 //cria a sessão de adicionais para o lanche
 const addAditionalsList = (itemDiv, item) => {
+    const aditionalsDiv = document.createElement('div');
+    aditionalsDiv.className = 'aditionalList';
+
     if (item.adicionais.length > 0) {
-        const aditionalsDiv = document.createElement('div');
         aditionalsDiv.innerHTML += '<p>Gostaria de algum adicional?</p>';
-        aditionalsDiv.className = "aditionalList";
 
         const aditionalList = document.createElement('ul');
 
@@ -214,12 +115,29 @@ const addAditionalsList = (itemDiv, item) => {
             listItem.textContent = ingredient;
             aditionalList.appendChild(listItem);
 
-            const addAditionalCheck = document.createElement("input");
-            addAditionalCheck.type = "checkbox";
+            const addAditionalCheck = document.createElement('input');
+            addAditionalCheck.type = 'checkbox';
             aditionalList.appendChild(addAditionalCheck);
         });
 
         aditionalsDiv.appendChild(aditionalList);
-        itemDiv.appendChild(aditionalsDiv);
     }
+
+    const quantity = document.createElement('input');
+    quantity.className = 'quantity';
+    quantity.type = "text";
+    quantity.value = 1;
+    quantity.name = item.nome;
+
+    aditionalsDiv.innerHTML += '<p>Quantidade:</p>';
+    aditionalsDiv.appendChild(quantity);
+
+    itemDiv.appendChild(aditionalsDiv);
 };
+
+const form = document.getElementById("pedidoForm");
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    window.location.href = `resumo.html?${new URLSearchParams(new FormData(form)).toString()}`;
+})
