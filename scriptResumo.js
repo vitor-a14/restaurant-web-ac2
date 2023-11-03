@@ -10,7 +10,7 @@ urlParams.forEach((value, key) => {
     for (const item of data) {
         if (item.nome === key) {
             itemValue = parseFloat(item.preço);
-            totalValue += parseFloat(item.preço);
+            totalValue += parseFloat(item.preço * value);
             break; 
         }
     }
@@ -20,7 +20,7 @@ urlParams.forEach((value, key) => {
             if (combo.nome === key) {
                 for (const item of combo.conteudo) {
                     itemValue += parseFloat(item.preço);
-                    totalValue += parseFloat(item.preço);
+                    totalValue += parseFloat(item.preço * value);
                 }
                 break; 
             }
@@ -29,7 +29,7 @@ urlParams.forEach((value, key) => {
 
     if (!key.startsWith('Adicional')) {
         const listItem = document.createElement('li');
-        listItem.textContent = `${value} ${key} - R$ ${itemValue}`
+        listItem.textContent = `R$ ${itemValue.toFixed(2)} - ${value}  ${key}`
         resumoListaComponent.append(listItem);
     }
 });

@@ -57,15 +57,18 @@ combos.forEach(combo => {
     itemDiv.className = 'itemDiv';
     var precoTotal = 0
 
+    combo.conteudo.forEach(item => {
+        precoTotal += parseFloat(item.preço);
+    })
+
     itemDiv.innerHTML = `
-    <br>
-    <h4>${combo.nome}</h4>
-    <p>Preço: R$ ${precoTotal}</p>
+        <br>
+        <h4>${combo.nome}</h4>
+        <p>Preço: R$ ${parseFloat(precoTotal).toFixed(2)}</p>
     `;
 
     itemDiv.innerHTML += '<p>Contém:</p>';
     combo.conteudo.forEach(item => {
-        precoTotal += item.preço
         const listItem = document.createElement('li');
         listItem.textContent = item.nome;
         compositionList.appendChild(listItem);
@@ -93,6 +96,7 @@ combos.forEach(combo => {
         
             aditionalsDiv.innerHTML += '<p>Quantidade:</p>';
             aditionalsDiv.appendChild(quantity);
+            
             itemDiv.appendChild(aditionalsDiv);
         } else if (itemDiv.getElementsByClassName('aditionalList').length > 0) { 
             //caso tirar do carrinho, esconder a tela de adicionais
