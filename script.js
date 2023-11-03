@@ -4,6 +4,7 @@ const comboComponent = document.getElementById('combos');
 //para cada item do cardapio será criado uma div com as informações e funcionalidades
 data.forEach(item => {
     const itemDiv = document.createElement('div');
+    itemDiv.className = 'itemDiv';
     
     itemDiv.innerHTML = `
         <br>
@@ -17,6 +18,7 @@ data.forEach(item => {
         itemDiv.innerHTML += '<p>Composição:</p>';
 
         const compositionList = document.createElement('ul');
+        compositionList.className = 'compositionList';
         
         item.composição.forEach(ingredient => {
             const listItem = document.createElement('li');
@@ -29,6 +31,7 @@ data.forEach(item => {
   
     //botão de adicionar ou remover do carrinho
     const addItemToCartButton = document.createElement('input');
+    addItemToCartButton.className = 'itemButton';
     addItemToCartButton.type = 'checkbox';
 
     //ao pressionar o botão
@@ -51,6 +54,7 @@ data.forEach(item => {
 combos.forEach(combo => {
     const compositionList = document.createElement('ul');
     const itemDiv = document.createElement('div');
+    itemDiv.className = 'itemDiv';
     var precoTotal = 0
 
     itemDiv.innerHTML = `
@@ -72,6 +76,7 @@ combos.forEach(combo => {
     //botão de adicionar ou remover do carrinho
     const addItemToCartButton = document.createElement('input');
     addItemToCartButton.type = 'checkbox';
+    addItemToCartButton.className = 'itemButton';
 
     //ao pressionar o botão
     addItemToCartButton.addEventListener('change', (event) => {
@@ -106,18 +111,25 @@ const addAditionalsList = (itemDiv, item) => {
     aditionalsDiv.className = 'aditionalList';
 
     if (item.adicionais.length > 0) {
-        aditionalsDiv.innerHTML += '<p>Gostaria de algum adicional?</p>';
+        aditionalsDiv.innerHTML += '<hr> <br> <p>Gostaria de algum adicional?</p>';
 
         const aditionalList = document.createElement('ul');
 
         item.adicionais.forEach(ingredient => {
             const listItem = document.createElement('li');
-            listItem.textContent = ingredient;
-            aditionalList.appendChild(listItem);
 
             const addAditionalCheck = document.createElement('input');
             addAditionalCheck.type = 'checkbox';
-            aditionalList.appendChild(addAditionalCheck);
+            addAditionalCheck.className = 'buttonAditional';
+            addAditionalCheck.name = "Adicional no " + item.nome + ': ' + ingredient;
+            listItem.appendChild(addAditionalCheck);
+
+            const addAditionalLabel = document.createElement('label');
+            addAditionalLabel.for = 'buttonAditional'; 
+            addAditionalLabel.textContent = ingredient;
+            listItem.appendChild(addAditionalLabel);
+
+            aditionalsDiv.appendChild(listItem);
         });
 
         aditionalsDiv.appendChild(aditionalList);

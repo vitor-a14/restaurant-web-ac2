@@ -27,10 +27,19 @@ urlParams.forEach((value, key) => {
         }
     }
 
-    const listItem = document.createElement('li');
-    listItem.textContent = `${value} ${key} - R$ ${itemValue}`;
+    if (!key.startsWith('Adicional')) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${value} ${key} - R$ ${itemValue}`
+        resumoListaComponent.append(listItem);
+    }
+});
 
-    resumoListaComponent.append(listItem);
+urlParams.forEach((value, key) => {
+    if (key.startsWith('Adicional')) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${key}`;
+        resumoListaComponent.append(listItem);
+    } 
 });
 
 resumoComponent.innerHTML += `<h4>Total: R$ ${totalValue.toFixed(2)}</h4>`;
